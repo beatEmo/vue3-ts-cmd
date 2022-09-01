@@ -1,7 +1,7 @@
 import axios from 'axios'
 import type { AxiosInstance } from 'axios'
 import type { ZYRequestConfig, ZYRequestInterceptors } from './type'
-import { ElLoading } from 'element-plus'
+import { ElLoading } from 'element-plus/lib/index'
 import { LoadingInstance } from 'element-plus/lib/components/loading/src/loading'
 
 class ZYRequest {
@@ -30,9 +30,9 @@ class ZYRequest {
         console.log('所有实例拦截器：请求拦截成功')
         if (this.showLoading) {
           this.loading = ElLoading.service({
-            lock: false,
-            text: '请求中。。。',
-            background: 'rgba(0,0,0,0.5)'
+            lock: true,
+            text: 'Loading',
+            background: 'rgba(0, 0, 0, 0.7)'
           })
         }
         return config

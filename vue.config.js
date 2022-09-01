@@ -4,6 +4,11 @@ module.exports = defineConfig({
   transpileDependencies: true,
   outputDir: './build',
   // 修改打包资源的加载路径
+  devServer: {
+    // 用于开发环境
+    host: 'localhost',
+    port: 8080
+  },
   publicPath: './',
   configureWebpack: {
     //   plugins: [

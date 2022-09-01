@@ -9,8 +9,10 @@ import {
   ElLink,
   ElRadio,
   ElTabPane,
-  ElTabs
-} from 'element-plus'
+  ElTabs,
+  ElIcon
+} from 'element-plus/lib/index'
+import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 
 const components = [
   ElButton,
@@ -21,11 +23,15 @@ const components = [
   ElTabs,
   ElTabPane,
   ElCheckbox,
-  ElLink
+  ElLink,
+  ElIcon
 ]
 
 export default function (app: App): void {
   for (const component of components) {
     app.component(component.name, component)
+  }
+  for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
+    app.component(key, component)
   }
 }
