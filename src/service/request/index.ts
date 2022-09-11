@@ -27,7 +27,7 @@ class ZYRequest {
     // 添加所有实例都有的拦截器
     this.instance.interceptors.request.use(
       (config) => {
-        console.log('所有实例拦截器：请求拦截成功')
+        // console.log('所有实例拦截器：请求拦截成功')
         if (this.showLoading) {
           this.loading = ElLoading.service({
             lock: true,
@@ -38,7 +38,7 @@ class ZYRequest {
         return config
       },
       (err) => {
-        console.log('所有实例拦截器：请求拦截失败')
+        // console.log('所有实例拦截器：请求拦截失败')
         return err
       }
     )
@@ -49,9 +49,9 @@ class ZYRequest {
         const { data } = res
         // 状态码仍为2xx的错误响应拦截
         if (data.returnCode === '-1001') {
-          console.log('请求失败')
+          // console.log('请求失败')
         } else {
-          console.log('所有实例拦截器：响应拦截成功')
+          // console.log('所有实例拦截器：响应拦截成功')
           return data
         }
       },
@@ -64,7 +64,7 @@ class ZYRequest {
             console.log('404')
             break
         }
-        console.log('所有实例拦截器：响应拦截失败')
+        // console.log('所有实例拦截器：响应拦截失败')
         return err
       }
     )

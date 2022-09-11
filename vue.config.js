@@ -7,7 +7,16 @@ module.exports = defineConfig({
   devServer: {
     // 用于开发环境
     host: 'localhost',
-    port: 8080
+    port: 8080,
+    proxy: {
+      '^/api': {
+        target: 'http://152.136.185.210:5000',
+        pathRewrite: {
+          '^/api': ''
+        },
+        changeOrigin: true
+      }
+    }
   },
   publicPath: './',
   configureWebpack: {
