@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="xseRGDdhkTUJ7u8E4gCi" name="第 1 页">
-        <mxGraphModel dx="574" dy="2425" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="1920" math="0" shadow="0">
+        <mxGraphModel dx="387" dy="2467" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="1920" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -19,7 +19,7 @@
                 <mxCell id="6" value="" style="edgeStyle=none;html=1;" parent="1" source="3" target="5" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="18" value="" style="edgeStyle=none;html=1;" edge="1" parent="1" source="3" target="17">
+                <mxCell id="18" value="" style="edgeStyle=none;html=1;" parent="1" source="3" target="17" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
                 <mxCell id="3" value="数据保存到某一个位置" style="whiteSpace=wrap;html=1;rounded=0;" parent="1" vertex="1">
@@ -46,7 +46,7 @@
                 <mxCell id="16" value="&lt;b style=&quot;font-size: 14px&quot;&gt;涉及到存储token等公用数据&lt;br&gt;将此处逻辑都放到vuex中&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontColor=#CC0000;" parent="1" vertex="1">
                     <mxGeometry x="20" y="-10" width="210" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="17" value="本地保存token" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="1">
+                <mxCell id="17" value="本地保存token" style="whiteSpace=wrap;html=1;rounded=0;" parent="1" vertex="1">
                     <mxGeometry x="230" y="180" width="120" height="60" as="geometry"/>
                 </mxCell>
             </root>

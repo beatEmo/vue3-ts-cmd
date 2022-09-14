@@ -14,7 +14,11 @@ import {
   ElContainer,
   ElAside,
   ElHeader,
-  ElMain
+  ElMain,
+  ElMenu,
+  ElMenuItem,
+  ElMenuItemGroup,
+  ElSubMenu
 } from 'element-plus/lib/index'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 
@@ -32,7 +36,11 @@ const components = [
   ElContainer,
   ElAside,
   ElHeader,
-  ElMain
+  ElMain,
+  ElMenu,
+  ElMenuItem,
+  ElMenuItemGroup,
+  ElSubMenu
 ]
 
 export default function (app: App): void {
