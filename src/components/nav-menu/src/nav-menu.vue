@@ -5,7 +5,7 @@
       <span class="title" v-show="!isCollapse">Vue3+TS</span>
     </div>
     <el-menu
-      default-active="2"
+      :default-active="defaultValue + ''"
       class="el-menu-vertical"
       :collapse="isCollapse"
       background-color="#0c2135"
@@ -23,7 +23,10 @@
             </template>
             <!-- 遍历里面的item -->
             <template v-for="subitem in item.children" :key="subitem.id">
-              <el-menu-item :index="subitem.id + ''">
+              <el-menu-item
+                :index="subitem.id + ''"
+                @click="handleMenuItemClick(subitem)"
+              >
                 <i v-if="subitem.icon" :class="subitem.icon"></i>
                 <span>{{ subitem.name }}</span>
               </el-menu-item>
@@ -43,8 +46,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue'
+import { defineComponent, ref, computed } from 'vue'
 import { useStore } from '@/store'
+import { useRoute, useRouter } from 'vue-router'
+import { pathMapToMenu } from '@/utils/map-menus'
 
 export default defineComponent({
   props: {
@@ -55,9 +60,21 @@ export default defineComponent({
   },
   setup() {
     const store = useStore()
+    const router = useRouter()
     const userMenus = computed(() => store.state.login.userMenus)
 
-    return { userMenus }
+    const route = useRoute()
+    const currentPath = route.path
+    const menu = pathMapToMenu(userMenus.value, currentPath)
+    const defaultValue = ref(menu.id)
+    console.log(defaultValue.value, menu.id)
+    const handleMenuItemClick = (item: any) => {
+      router.push({
+        path: item.url ?? '/not-found'
+      })
+    }
+
+    return { userMenus, defaultValue, handleMenuItemClick }
   }
 })
 </script>

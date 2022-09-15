@@ -10,6 +10,7 @@ import {
 } from '@/service/login/login'
 import LocalCache from '@/utils/cache'
 import router from '@/router'
+import { mapMenusToRoutes } from '@/utils/map-menus'
 
 // ts中 vuex使用modeule时 必须给Module类型指定类型 Module<当前state的类型,root中state的类型>
 const loginModule: Module<ILoginState, IRootState> = {
@@ -34,6 +35,14 @@ const loginModule: Module<ILoginState, IRootState> = {
     // 保存用户的权限菜单
     changeUserMenus(state, userMenus: any) {
       state.userMenus = userMenus
+
+      // 将userMenus => routes
+      const routes = mapMenusToRoutes(userMenus)
+      console.log(routes, '11')
+      //  将routes 添加到 router.main.children
+      routes.forEach((route) => {
+        router.addRoute('main', route)
+      })
     }
   },
   actions: {

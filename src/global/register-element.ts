@@ -18,7 +18,17 @@ import {
   ElMenu,
   ElMenuItem,
   ElMenuItemGroup,
-  ElSubMenu
+  ElSubMenu,
+  ElDropdown,
+  ElDropdownMenu,
+  ElDropdownItem,
+  ElAvatar,
+  ElRow,
+  ElCol,
+  ElSelect,
+  ElOption,
+  ElDatePicker,
+  ElBreadcrumb
 } from 'element-plus/lib/index'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 
@@ -40,7 +50,17 @@ const components = [
   ElMenu,
   ElMenuItem,
   ElMenuItemGroup,
-  ElSubMenu
+  ElSubMenu,
+  ElDropdown,
+  ElDropdownMenu,
+  ElDropdownItem,
+  ElAvatar,
+  ElRow,
+  ElCol,
+  ElSelect,
+  ElOption,
+  ElDatePicker,
+  ElBreadcrumb
 ]
 
 export default function (app: App): void {

@@ -7,6 +7,6 @@ import store, { setupStore } from './store'
 import '@/assets/css/normal.css'
 import '@/assets/css/index.less'
 
+setupStore()
 const app = createApp(App)
 app.use(store).use(router).use(globalRegister).mount('#app')
-setupStore()
