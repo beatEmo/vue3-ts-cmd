@@ -1,5 +1,8 @@
 <template>
   <div class="zy-form">
+    <header class="header">
+      <slot name="header"></slot>
+    </header>
     <el-form :label-width="labelWidth">
       <el-row>
         <template v-for="item of formItems" :key="item.label">
@@ -13,12 +16,20 @@
                 v-if="item.type === 'input' || item.type === 'password'"
               >
                 <el-input
+                  style="width: 100%"
+                  v-bind="item.otherOptions"
                   :placeholder="item.placeholder"
                   :show-password="item.type === 'password'"
+                  v-model="formData[`${item.field}`]"
                 />
               </template>
               <template v-else-if="item.type === 'select'">
-                <el-select :placeholder="item.placeholder">
+                <el-select
+                  style="width: 100%"
+                  v-bind="item.otherOptions"
+                  :placeholder="item.placeholder"
+                  v-model="formData[`${item.field}`]"
+                >
                   <el-option v-for="option of item.options" :key="option.value">
                     {{ option.title }}
                   </el-option>
@@ -28,6 +39,7 @@
                 <el-date-picker
                   style="width: 100%"
                   v-bind="item.otherOptions"
+                  v-model="formData[`${item.field}`]"
                 ></el-date-picker>
               </template>
             </el-form-item>
@@ -35,14 +47,21 @@
         </template>
       </el-row>
     </el-form>
+    <footer class="footer">
+      <slot name="footer"></slot>
+    </footer>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue'
+import { defineComponent, PropType, ref, watch } from 'vue'
 import type { IFormItem } from '../types'
 export default defineComponent({
   props: {
+    modelValue: {
+      type: Object,
+      required: true
+    },
     formItems: {
       type: Array as PropType<IFormItem[]>,
       default: () => {
@@ -68,8 +87,14 @@ export default defineComponent({
       })
     }
   },
-  setup() {
-    return {}
+  emits: ['update:modelValue'],
+  setup(props, { emit }) {
+    const formData = ref({ ...props.modelValue })
+    watch(formData, (newValue) => emit('update:modelValue', newValue), {
+      deep: true
+    })
+
+    return { formData }
   }
 })
 </script>
