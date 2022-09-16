@@ -18,6 +18,7 @@
 <script lang="ts">
 import { defineComponent, ref, computed } from 'vue'
 import userInfo from './user-info.vue'
+// eslint-disable-next-line
 import ZyBreadcrumb, { IBreadcrumb } from '@/base-ui/breadcrumb'
 import { useStore } from '@/store'
 import { useRoute } from 'vue-router'
