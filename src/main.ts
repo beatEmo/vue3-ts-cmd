@@ -8,5 +8,9 @@ import '@/assets/css/normal.css'
 import '@/assets/css/index.less'
 
 setupStore()
+
 const app = createApp(App)
+
+console.log(app.config.globalProperties)
+
 app.use(store).use(router).use(globalRegister).mount('#app')

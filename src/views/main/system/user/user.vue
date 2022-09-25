@@ -3,8 +3,19 @@
     <page-search :formConfig="formConfig" />
     <div class="content">
       <zy-table :userList="userList" :propList="propList">
+        <!-- 状态 -->
         <template #enable="{ row }">
-          {{ row.enable ? '启用' : '未启用' }}
+          <el-button size="small" :type="row.enable ? 'success' : 'danger'">
+            {{ row.enable ? '启用' : '未启用' }}
+          </el-button>
+        </template>
+        <!-- 创建时间 -->
+        <template #createAt="{ row }">
+          {{ $filters.formatTime(row.createAt) }}
+        </template>
+        <!-- 更新时间 -->
+        <template #updateAt="{ row }">
+          {{ $filters.formatTime(row.createAt) }}
         </template>
       </zy-table>
     </div>

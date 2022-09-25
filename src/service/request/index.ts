@@ -85,7 +85,6 @@ class ZYRequest {
           if (config.interceptors?.responseInterceptor) {
             res = config.interceptors.responseInterceptor(res)
           }
-          console.log(res)
           // 2、将showloading设置为true不会影响下一次请求
           this.showLoading = true
           // 3、将数据返回

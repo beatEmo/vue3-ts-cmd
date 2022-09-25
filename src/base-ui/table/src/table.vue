@@ -24,7 +24,7 @@ export default defineComponent({
       required: true
     },
     propList: {
-      type: Array,
+      type: Array as any,
       required: true
     }
   },
