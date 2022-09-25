@@ -3,7 +3,7 @@
     <header class="header">
       <slot name="header"></slot>
     </header>
-    <el-form :label-width="labelWidth">
+    <el-form :label-width="labelWidth" ref="formD">
       <el-row>
         <template v-for="item of formItems" :key="item.label">
           <el-col v-bind="colLayout">
@@ -12,6 +12,7 @@
               :rules="item.rules"
               :style="itemStyle"
             >
+              <!-- input -->
               <template
                 v-if="item.type === 'input' || item.type === 'password'"
               >
@@ -23,6 +24,7 @@
                   v-model="formData[`${item.field}`]"
                 />
               </template>
+              <!-- select -->
               <template v-else-if="item.type === 'select'">
                 <el-select
                   style="width: 100%"
@@ -30,11 +32,17 @@
                   :placeholder="item.placeholder"
                   v-model="formData[`${item.field}`]"
                 >
-                  <el-option v-for="option of item.options" :key="option.value">
+                  <el-option
+                    v-for="option of item.options"
+                    :label="option.title"
+                    :key="option.value"
+                    :value="option.value"
+                  >
                     {{ option.title }}
                   </el-option>
                 </el-select>
               </template>
+              <!-- datepicker -->
               <template v-else-if="item.type === 'datepicker'">
                 <el-date-picker
                   style="width: 100%"
@@ -93,8 +101,13 @@ export default defineComponent({
     watch(formData, (newValue) => emit('update:modelValue', newValue), {
       deep: true
     })
+    const formD = ref()
 
-    return { formData }
+    const myValidate = () => {
+      formD.value.validate()
+      console.log('myValidate')
+    }
+    return { formData, myValidate, formD }
   }
 })
 </script>

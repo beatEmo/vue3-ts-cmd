@@ -29,7 +29,9 @@ import {
   ElOption,
   ElDatePicker,
   ElBreadcrumb,
-  ElBreadcrumbItem
+  ElBreadcrumbItem,
+  ElTable,
+  ElTableColumn
 } from 'element-plus/lib/index'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 
@@ -62,7 +64,9 @@ const components = [
   ElOption,
   ElDatePicker,
   ElBreadcrumb,
-  ElBreadcrumbItem
+  ElBreadcrumbItem,
+  ElTable,
+  ElTableColumn
 ]
 
 export default function (app: App): void {

@@ -1,5 +1,6 @@
 import zyRequest from '../index'
-import { IAccount, IDataType, ILoginResult } from './types'
+import { IAccount, ILoginResult } from './types'
+import type { IDataType } from '../types'
 
 // 搞一个枚举数据 以便后面改api
 enum LoginAPI {

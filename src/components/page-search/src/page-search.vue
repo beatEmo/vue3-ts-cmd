@@ -1,14 +1,16 @@
 <template>
   <div class="page-search">
     <div class="search">
-      <zy-form v-bind="formConfig" v-model="formData">
+      <zy-form v-bind="formConfig" v-model="formData" ref="myform">
         <template #header>
           <h1 class="header">高级检索</h1>
         </template>
         <template #footer>
           <div class="handle-btns">
             <el-button icon="">重置</el-button>
-            <el-button type="primary" icon="">搜索</el-button>
+            <el-button type="primary" icon="" @click="btnSearch"
+              >搜索</el-button
+            >
           </div>
         </template>
       </zy-form>
@@ -40,7 +42,14 @@ export default defineComponent({
       sport: '',
       createTime: ''
     })
-    return { formData }
+    const myform = ref<any>()
+
+    const btnSearch = () => {
+      myform.value?.myValidate()
+      console.log(myform.value)
+    }
+
+    return { formData, myform, btnSearch }
   }
 })
 </script>
