@@ -45,7 +45,7 @@
     </el-table>
     <footer>
       <slot name="footer">
-        <el-pagination
+        <!-- <el-pagination
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
           :current-page="page.currentPage"
@@ -54,7 +54,7 @@
           layout="total, sizes, prev, pager, next, jumper"
           :total="1"
         >
-        </el-pagination>
+        </el-pagination> -->
       </slot>
     </footer>
   </div>
