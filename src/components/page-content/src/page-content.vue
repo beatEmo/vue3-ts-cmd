@@ -31,7 +31,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, ComputedRef } from 'vue'
+import { defineComponent, computed } from 'vue'
 import { useStore } from 'vuex'
 
 import ZyTable from '@/base-ui/table'
@@ -45,22 +45,26 @@ export default defineComponent({
     contentTableConfig: {
       type: Object,
       required: true
+    },
+    pageName: {
+      type: String,
+      required: true
     }
   },
   emits: ['newBtnClick', 'editBtnClick'],
-  setup() {
+  setup(props) {
     const store = useStore()
 
     store.dispatch('system/getPageListAction', {
-      pageUrl: 'users/list',
+      pageName: props.pageName,
       queryInfo: {
         offset: 0,
         size: 10
       }
     })
 
-    const userList: ComputedRef<any[]> = computed(
-      () => store.state.system.userList
+    const userList = computed(() =>
+      store.getters['system/pageListData'](props.pageName)
     )
     // const userCount = computed(() => store.state.system.userCount)
 

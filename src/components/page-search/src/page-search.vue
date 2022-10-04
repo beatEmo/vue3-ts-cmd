@@ -7,10 +7,10 @@
         </template>
         <template #footer>
           <div class="handle-btns">
-            <el-button icon="">重置</el-button>
-            <el-button type="primary" icon="" @click="btnSearch"
-              >搜索</el-button
-            >
+            <el-button icon="Refresh" @click="handleResetClick">重置</el-button>
+            <el-button type="primary" icon="" @click="btnSearch">
+              搜索
+            </el-button>
           </div>
         </template>
       </zy-form>
@@ -32,24 +32,27 @@ export default defineComponent({
   components: {
     ZyForm
   },
-  setup() {
+  setup(props) {
+    // 双向绑定的属性应该是由配置文件的field来决定
+    const formItems = props.formConfig?.formItems ?? []
+    const fromOriginData: any = {}
+    for (const item of formItems) {
+      fromOriginData[item.field] = ''
+    }
     // 这种做法违反了单项数据流
     // 首先这里使用v-model将数据绑给子组件 对于v-model的数据reactive是由bug的这里换成ref
-    const formData = ref({
-      id: '',
-      name: '',
-      password: '',
-      sport: '',
-      createTime: ''
-    })
+    const formData = ref(fromOriginData)
     const myform = ref<any>()
 
     const btnSearch = () => {
       myform.value?.myValidate()
       console.log(myform.value)
     }
+    const handleResetClick = () => {
+      formData.value = fromOriginData
+    }
 
-    return { formData, myform, btnSearch }
+    return { formData, myform, btnSearch, handleResetClick }
   }
 })
 </script>

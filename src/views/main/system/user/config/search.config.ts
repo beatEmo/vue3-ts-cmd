@@ -10,13 +10,6 @@ export const formConfig: IForm = {
       field: 'id',
       type: 'input',
       label: 'id',
-      rules: [
-        {
-          required: true,
-          message: '请输入',
-          trigger: 'blur'
-        }
-      ],
       placeholder: '请输入id'
     },
     {

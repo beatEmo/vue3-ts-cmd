@@ -8,6 +8,7 @@ module.exports = defineConfig({
     // 用于开发环境
     host: 'localhost',
     port: 8080,
+    open: true,
     proxy: {
       '^/api': {
         target: 'http://152.136.185.210:5000',

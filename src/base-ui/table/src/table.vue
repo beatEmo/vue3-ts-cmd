@@ -75,7 +75,8 @@ export default defineComponent({
     },
     propList: {
       type: Array as any,
-      required: true
+      default: () => []
+      // required: true
     },
     showIndexColumn: {
       type: Boolean,
