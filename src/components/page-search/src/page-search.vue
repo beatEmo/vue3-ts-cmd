@@ -32,7 +32,7 @@ export default defineComponent({
   components: {
     ZyForm
   },
-  setup(props) {
+  setup(props, { emit }) {
     // 双向绑定的属性应该是由配置文件的field来决定
     const formItems = props.formConfig?.formItems ?? []
     const fromOriginData: any = {}
@@ -45,11 +45,15 @@ export default defineComponent({
     const myform = ref<any>()
 
     const btnSearch = () => {
-      myform.value?.myValidate()
-      console.log(myform.value)
+      emit('queryBtnClick', formData.value)
     }
+
     const handleResetClick = () => {
-      formData.value = fromOriginData
+      // formData.value = fromOriginData
+      for (const key in fromOriginData) {
+        formData.value[`${key}`] = fromOriginData[key]
+      }
+      emit('resetBtnClick')
     }
 
     return { formData, myform, btnSearch, handleResetClick }

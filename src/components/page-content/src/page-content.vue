@@ -1,6 +1,11 @@
 <template>
   <div class="page-content">
-    <zy-table :userList="userList" v-bind="contentTableConfig">
+    <zy-table
+      :userList="userList"
+      :listCount="dataCount"
+      v-bind="contentTableConfig"
+      v-model:page="pageInfo"
+    >
       <template #headerHandler>
         <el-button type="primary">新建用户</el-button>
       </template>
@@ -31,7 +36,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue'
+import { defineComponent, ref, watch, computed } from 'vue'
 import { useStore } from 'vuex'
 
 import ZyTable from '@/base-ui/table'
@@ -55,21 +60,36 @@ export default defineComponent({
   setup(props) {
     const store = useStore()
 
-    store.dispatch('system/getPageListAction', {
-      pageName: props.pageName,
-      queryInfo: {
-        offset: 0,
-        size: 10
-      }
-    })
-
+    // 从vuex中获取数据
     const userList = computed(() =>
       store.getters['system/pageListData'](props.pageName)
     )
-    // const userCount = computed(() => store.state.system.userCount)
+    const dataCount = computed(() =>
+      store.getters['system/pageListCount'](props.pageName)
+    )
+
+    // 双向绑定pageInfo
+    const pageInfo = ref({ currentPage: 1, pageSize: 10 })
+    watch(pageInfo, () => getPageData())
+
+    // 发送网络请求
+    const getPageData = (queryInfo: any = {}) => {
+      store.dispatch('system/getPageListAction', {
+        pageName: props.pageName,
+        queryInfo: {
+          offset: (pageInfo.value.currentPage - 1) * pageInfo.value.pageSize,
+          size: pageInfo.value.pageSize,
+          ...queryInfo
+        }
+      })
+    }
+    getPageData()
 
     return {
-      userList
+      userList,
+      getPageData,
+      dataCount,
+      pageInfo
     }
   }
 })

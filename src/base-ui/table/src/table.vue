@@ -34,7 +34,7 @@
       >
       </el-table-column>
       <template v-for="propItem of propList" :key="propItem.prop">
-        <el-table-column v-bind="propItem" align="center">
+        <el-table-column v-bind="propItem" align="center" show-overflow-tooltip>
           <template #default="scope">
             <slot :name="propItem.slotName" :row="scope.row">
               {{ scope.row[propItem.prop] }}
@@ -45,16 +45,16 @@
     </el-table>
     <footer>
       <slot name="footer">
-        <!-- <el-pagination
+        <el-pagination
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
           :current-page="page.currentPage"
           :page-size="page.pageSize"
           :page-sizes="[10, 20, 30]"
           layout="total, sizes, prev, pager, next, jumper"
-          :total="1"
+          :total="listCount"
         >
-        </el-pagination> -->
+        </el-pagination>
       </slot>
     </footer>
   </div>
@@ -72,6 +72,10 @@ export default defineComponent({
     userList: {
       type: Array,
       required: true
+    },
+    listCount: {
+      type: Number,
+      default: 0
     },
     propList: {
       type: Array as any,
