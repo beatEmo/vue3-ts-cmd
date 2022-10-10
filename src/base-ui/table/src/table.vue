@@ -15,6 +15,7 @@
       border
       style="width: 100%"
       @selection-change="handlerSelectionChange"
+      v-bind="childrenProps"
     >
       <!-- 选择 -->
       <el-table-column
@@ -43,7 +44,7 @@
         </el-table-column>
       </template>
     </el-table>
-    <footer>
+    <footer class="footer" v-if="showFooter">
       <slot name="footer">
         <el-pagination
           @size-change="handleSizeChange"
@@ -93,6 +94,14 @@ export default defineComponent({
     page: {
       type: Object,
       default: () => ({ currentPage: 0, pageSize: 10 })
+    },
+    childrenProps: {
+      type: Object,
+      default: () => ({})
+    },
+    showFooter: {
+      type: Boolean,
+      default: true
     }
   },
   emits: ['selectionChange', 'update:page'],
@@ -136,9 +145,11 @@ header {
   }
 }
 
-footer {
+.footer {
   margin-top: 15px;
-
+  display: flex;
+  justify-content: center;
+  align-items: center;
   .el-pagination {
     text-align: right;
   }

@@ -7,7 +7,9 @@
       v-model:page="pageInfo"
     >
       <template #headerHandler>
-        <el-button type="primary">新建用户</el-button>
+        <el-button type="primary" v-if="isCreate" @click="handleNewClick">
+          新建用户
+        </el-button>
       </template>
       <!-- 状态 -->
       <template #enable="{ row }">
@@ -15,6 +17,21 @@
           {{ row.enable ? '启用' : '未启用' }}
         </el-button>
       </template>
+      <template #status="{ row }">
+        <el-button size="small" :type="row.status ? 'success' : 'danger'">
+          {{ row.status ? '启用' : '未启用' }}
+        </el-button>
+      </template>
+      <!-- 图片 -->
+      <!-- <template #imgUrl="{ row }">
+        <el-image
+          style="width: 60px; height: 60px"
+          :src="row.imgUrl"
+          :preview-src-list="[row.imgUrl]"
+          fit="cover"
+          teleported
+        />
+      </template> -->
       <!-- 创建时间 -->
       <template #createAt="{ row }">
         {{ $filters.formatTime(row.createAt) }}
@@ -23,13 +40,38 @@
       <template #updateAt="{ row }">
         {{ $filters.formatTime(row.createAt) }}
       </template>
-      <template #handler>
+      <!-- 处理操作事务 -->
+      <template #handler="{ row }">
         <div class="handler-btns">
-          <el-button icon="EditPen" type="text" size="small">修改</el-button>
-          <el-button icon="DocumentDelete" type="text" size="small">
+          <el-button
+            icon="EditPen"
+            type="text"
+            size="small"
+            v-if="isUpdate"
+            @click="handleEditClick(row)"
+          >
+            编辑
+          </el-button>
+          <el-button
+            v-if="isDelete"
+            icon="DocumentDelete"
+            type="text"
+            size="small"
+            @click="handleDeleteClick(row)"
+          >
             删除
           </el-button>
         </div>
+      </template>
+      <!-- 处理其他多余插槽 -->
+      <template
+        v-for="item in otherPropSlots"
+        :key="item.prop"
+        #[item.slotName]="{ row }"
+      >
+        <template v-if="item.slotName">
+          <slot :name="item.slotName" :row="row"></slot>
+        </template>
       </template>
     </zy-table>
   </div>
@@ -40,6 +82,8 @@ import { defineComponent, ref, watch, computed } from 'vue'
 import { useStore } from 'vuex'
 
 import ZyTable from '@/base-ui/table'
+
+import { usePermission } from '@/hooks/usePermission'
 
 export default defineComponent({
   name: 'PageContent',
@@ -57,23 +101,23 @@ export default defineComponent({
     }
   },
   emits: ['newBtnClick', 'editBtnClick'],
-  setup(props) {
+  setup(props, { emit }) {
     const store = useStore()
 
-    // 从vuex中获取数据
-    const userList = computed(() =>
-      store.getters['system/pageListData'](props.pageName)
-    )
-    const dataCount = computed(() =>
-      store.getters['system/pageListCount'](props.pageName)
-    )
+    // 0 获取操作的权限
+    const isCreate = usePermission(props.pageName, 'create')
+    const isUpdate = usePermission(props.pageName, 'update')
+    const isDelete = usePermission(props.pageName, 'delete')
+    const isQuery = usePermission(props.pageName, 'query')
 
-    // 双向绑定pageInfo
+    // 1 双向绑定pageInfo
     const pageInfo = ref({ currentPage: 1, pageSize: 10 })
     watch(pageInfo, () => getPageData())
 
-    // 发送网络请求
+    // 2 发送网络请求
     const getPageData = (queryInfo: any = {}) => {
+      // 判断有没有查询权限
+      if (!isQuery) return
       store.dispatch('system/getPageListAction', {
         pageName: props.pageName,
         queryInfo: {
@@ -85,11 +129,54 @@ export default defineComponent({
     }
     getPageData()
 
+    // 3 从vuex中获取数据
+    const userList = computed(() =>
+      store.getters['system/pageListData'](props.pageName)
+    )
+    const dataCount = computed(() =>
+      store.getters['system/pageListCount'](props.pageName)
+    )
+
+    //  4 获取其他动态插槽
+    const otherPropSlots = props.contentTableConfig?.propList?.filter(
+      (item: any) => {
+        if (item.slotName === 'status') return false
+        if (item.slotName === 'createAt') return false
+        if (item.slotName === 'updateAt') return false
+        if (item.slotName === 'handler') return false
+        return true
+      }
+    )
+
+    // 5 删除功能更
+    const handleDeleteClick = (data: any) => {
+      store.dispatch('system/deletePageDataAction', {
+        pageName: props.pageName,
+        id: data.id
+      })
+    }
+
+    // 新增功能
+    const handleNewClick = () => {
+      emit('newBtnClick')
+    }
+    // 修改功能
+    const handleEditClick = (item: any) => {
+      emit('editBtnClick', item)
+    }
+
     return {
       userList,
       getPageData,
       dataCount,
-      pageInfo
+      pageInfo,
+      otherPropSlots,
+      isCreate,
+      isUpdate,
+      isDelete,
+      handleDeleteClick,
+      handleNewClick,
+      handleEditClick
     }
   }
 })

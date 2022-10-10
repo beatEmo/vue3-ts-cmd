@@ -10,7 +10,19 @@
         ref="pageContentRef"
         :contentTableConfig="contentTableConfig"
         pageName="goods"
-      ></page-content>
+      >
+        <template #imgUrl="{ row }">
+          <div class="demo-image__preview">
+            <el-image
+              style="width: 60px; height: 60px"
+              :src="row.imgUrl"
+              :preview-src-list="[row.imgUrl]"
+              preview-teleported
+            >
+            </el-image>
+          </div>
+        </template>
+      </page-content>
     </div>
   </div>
 </template>

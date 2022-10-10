@@ -10,7 +10,7 @@ import {
 } from '@/service/login/login'
 import LocalCache from '@/utils/cache'
 import router from '@/router'
-import { mapMenusToRoutes } from '@/utils/map-menus'
+import { mapMenusToRoutes, mapMenusTopermissions } from '@/utils/map-menus'
 
 // ts中 vuex使用modeule时 必须给Module类型指定类型 Module<当前state的类型,root中state的类型>
 const loginModule: Module<ILoginState, IRootState> = {
@@ -19,7 +19,8 @@ const loginModule: Module<ILoginState, IRootState> = {
     return {
       token: '',
       userInfo: {},
-      userMenus: []
+      userMenus: [],
+      permission: []
     }
   },
   getters: {},
@@ -42,6 +43,10 @@ const loginModule: Module<ILoginState, IRootState> = {
       routes.forEach((route) => {
         router.addRoute('main', route)
       })
+
+      // 获取用户权限按钮
+      const permission = mapMenusTopermissions(userMenus)
+      state.permission = permission
     }
   },
   actions: {

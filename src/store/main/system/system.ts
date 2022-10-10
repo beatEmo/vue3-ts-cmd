@@ -1,7 +1,7 @@
 import type { Module } from 'vuex'
 import type { ISystemState } from './types'
 import type { IRootState } from '@/store/types'
-import { getPageListData } from '@/service/main/system/system'
+import { getPageListData, deletePageData } from '@/service/main/system/system'
 
 const systemModule: Module<ISystemState, IRootState> = {
   namespaced: true,
@@ -12,7 +12,9 @@ const systemModule: Module<ISystemState, IRootState> = {
       roleList: [],
       roleCount: 0,
       goodsList: [],
-      goodsCount: 0
+      goodsCount: 0,
+      menuList: [],
+      menuCount: 0
     }
   },
   getters: {
@@ -25,6 +27,8 @@ const systemModule: Module<ISystemState, IRootState> = {
             return state.roleList
           case 'goods':
             return state.goodsList
+          case 'menu':
+            return state.menuList
         }
       }
     },
@@ -52,6 +56,12 @@ const systemModule: Module<ISystemState, IRootState> = {
     },
     changeGoodsCount(state, count: number) {
       state.goodsCount = count
+    },
+    changeMenuList(state, list: any[]) {
+      state.menuList = list
+    },
+    changeMenuCount(state, count: number) {
+      state.menuCount = count
     }
   },
   actions: {
@@ -67,6 +77,9 @@ const systemModule: Module<ISystemState, IRootState> = {
           break
         case 'goods':
           pageUrl = '/goods/list'
+          break
+        case 'menu':
+          pageUrl = '/menu/list'
           break
       }
 
@@ -89,6 +102,22 @@ const systemModule: Module<ISystemState, IRootState> = {
       //     commit(`changeRoleCount`, totalCount)
       //     break
       // }
+    },
+    async deletePageDataAction({ dispatch }, payload: any) {
+      // 1 获取pageName和id
+      const { pageName, id } = payload
+      const pageUrl = `${pageName}/${id}`
+      // 2 调用网络请求
+      await deletePageData(pageUrl)
+      // 3 请求最新的数据
+      dispatch('getPageListAction', {
+        pageName,
+        queryInfo: {
+          // 可能有些其他的请求条件 可以加个page和search数据放到vuex中做一个共享
+          offset: 0,
+          size: 10
+        }
+      })
     }
   }
 }
